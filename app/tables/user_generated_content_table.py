@@ -35,7 +35,7 @@ table = dynamodb.create_table(
         'WriteCapacityUnits': 5
     },
     GlobalSecondaryIndexes=[
-{
+        {
             'IndexName': 'ContentIdIndex',
             'KeySchema': [
                 {

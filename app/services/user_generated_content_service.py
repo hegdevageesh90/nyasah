@@ -35,7 +35,7 @@ def update_ugc(content_id: str, updated_content: Dict[str, Any]) -> Dict[str, An
 
 
 def get_content_by_content_id(content_id: str) -> List[Dict[str, Any]]:
-    """Fetches user-generated content by user_id."""
+    """Fetches user-generated content by content_id."""
     response = table.query(
         IndexName='ContentIdIndex',
         KeyConditionExpression=Key('content_id').eq(content_id)
