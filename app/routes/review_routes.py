@@ -1,26 +1,26 @@
-from flask import Blueprint, request, jsonify
+from typing import List
+
+from fastapi import APIRouter, HTTPException
 
 from app.models.review import Review
 from app.services.review_service import add_review, get_reviews_by_product
 
-review_bp = Blueprint('review_bp', __name__)
+router = APIRouter()
 
 
-@review_bp.route('/reviews', methods=['POST'])
-def create_review():
-    # Parse the incoming JSON body into the Review model
-    review_data = request.json
-
-    # Convert dict to Review model instance
-    review = Review(**review_data)
-
-    # Call service function to add the review
-    saved_review = add_review(review)
-
-    return jsonify(saved_review), 201
+@router.post("/reviews", response_model=Review, status_code=201)
+def create_review(review: Review):
+    try:
+        saved_review = add_review(review)
+        return saved_review
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 
-@review_bp.route('/reviews/<product_id>', methods=['GET'])
-def list_reviews(product_id):
-    reviews = get_reviews_by_product(product_id)
-    return jsonify(reviews), 200
+@router.get("/reviews/{product_id}", response_model=List[Review])
+def list_reviews(product_id: str):
+    try:
+        reviews = get_reviews_by_product(product_id)
+        return reviews
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
