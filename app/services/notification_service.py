@@ -36,7 +36,7 @@ class NotificationService:
         if not views:
             views = self.fetch_views_from_dynamodb(tenant_id, product_id, start_time, end_time)
 
-        return {"message": f"{views} people are viewing this product right now"}
+        return {"message": f"{len(views)} people are viewing this product right now"}
 
     def get_purchase_notification(self, tenant_id: str, product_id: str, start_time: Optional[str] = None,
                                   end_time: Optional[str] = None):
@@ -54,7 +54,7 @@ class NotificationService:
         if not purchases:
             purchases = self.fetch_purchases_from_dynamodb(tenant_id, product_id, start_time, end_time)
 
-        return {"message": f"{purchases} people have bought this product"}
+        return {"message": f"{len(purchases)} people have bought this product"}
 
     def fetch_views_from_dynamodb(self, tenant_id: str, product_id: str, start_time: Optional[str] = None,
                                   end_time: Optional[str] = None) -> int:
@@ -76,7 +76,7 @@ class NotificationService:
         if not isinstance(items, list):
             raise TypeError(f"Expected list for 'Items', got {type(items).__name__}")
 
-        return len(items)
+        return items
 
     def fetch_purchases_from_dynamodb(self, tenant_id: str, product_id: str, start_time: Optional[str] = None,
                                       end_time: Optional[str] = None) -> int:
@@ -98,4 +98,4 @@ class NotificationService:
         if not isinstance(items, list):
             raise TypeError(f"Expected list for 'Items', got {type(items).__name__}")
 
-        return len(items)
+        return items
