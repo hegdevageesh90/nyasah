@@ -1,3 +1,5 @@
+from imp import reload
+
 from fastapi import FastAPI
 from app.routes.review_routes import router as review_router
 from app.routes.user_generated_content_routes import router as ugc_router
@@ -21,6 +23,5 @@ def read_root():
 
 
 if __name__ == "__main__":
-    config = uvicorn.Config("main:app", port=5000, log_level="info", reload=True)
-    server = uvicorn.Server(config)
-    server.run()
+    print("Starting app on port 5000")
+    uvicorn.run("main:app", port=5000, log_level="info", reload=True, workers=1)

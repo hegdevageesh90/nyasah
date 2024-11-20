@@ -57,7 +57,7 @@ class NotificationService:
         return {"message": f"{len(purchases)} people have bought this product"}
 
     def fetch_views_from_dynamodb(self, tenant_id: str, product_id: str, start_time: Optional[str] = None,
-                                  end_time: Optional[str] = None) -> int:
+                                  end_time: Optional[str] = None) -> list:
         """Fetch view counts from DynamoDB within the specified time range."""
         key_condition = Key('tenant_id').eq(tenant_id) & Key('product_id').eq(product_id)
 
@@ -79,7 +79,7 @@ class NotificationService:
         return items
 
     def fetch_purchases_from_dynamodb(self, tenant_id: str, product_id: str, start_time: Optional[str] = None,
-                                      end_time: Optional[str] = None) -> int:
+                                      end_time: Optional[str] = None) -> list:
         """Fetch purchase counts from DynamoDB within the specified time range."""
         key_condition = Key('tenant_id').eq(tenant_id) & Key('product_id').eq(product_id)
 

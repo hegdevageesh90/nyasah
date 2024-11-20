@@ -1,6 +1,5 @@
 import boto3
 
-# Initialize DynamoDB client
 dynamodb = boto3.resource('dynamodb',
                           endpoint_url='http://localhost:8000',
                           aws_access_key_id='local',
@@ -14,17 +13,17 @@ def create_event_table():
         KeySchema=[
             {
                 'AttributeName': 'event_id',
-                'KeyType': 'HASH'  # Partition key
+                'KeyType': 'HASH'
             }
         ],
         AttributeDefinitions=[
             {
                 'AttributeName': 'event_id',
-                'AttributeType': 'S'  # String
+                'AttributeType': 'S'
             },
             {
                 'AttributeName': 'tenant_id',
-                'AttributeType': 'S'  # String
+                'AttributeType': 'S'
             },
             {
                 'AttributeName': 'product_id',
@@ -32,11 +31,11 @@ def create_event_table():
             },
             {
                 'AttributeName': 'event_type',
-                'AttributeType': 'S'  # String
+                'AttributeType': 'S'
             },
             {
                 'AttributeName': 'timestamp',
-                'AttributeType': 'S'  # String
+                'AttributeType': 'S'
             }
         ],
         GlobalSecondaryIndexes=[
@@ -87,7 +86,6 @@ def create_event_table():
         }
     )
 
-    # Wait for the table to be created
     table.meta.client.get_waiter('table_exists').wait(TableName='EventTable')
 
     print(f"Table status: {table.table_status}")
